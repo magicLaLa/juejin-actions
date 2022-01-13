@@ -3,7 +3,7 @@
 - 签到
 - 签到天数
 - 当前积分
-...todo!
+- ...todo!
 
 环境变量 JUEJIN_COOKIE
 
@@ -18,3 +18,4 @@ JUEJIN_COOKIE=xxxx cargo run
 ### TODO:
 
 - 增加 docker 自动运行
+- 通知
