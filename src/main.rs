@@ -45,7 +45,7 @@ async fn main() {
                     }
                 }
             } else {
-                println!("今日已签到，请重复签到");
+                println!("今日已签到，请勿重复签到");
             }
             get_info().await;
         },
