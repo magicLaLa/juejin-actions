@@ -41,6 +41,7 @@ pub async fn send_notify(notify: &str) {
 
   let mut data: Vec<u8> = Vec::new();
 
+  // https://www.jianshu.com/p/065fc0555056
   data.extend("{".as_bytes());
   data.extend("\"msgtype\":\"text\",".as_bytes());
   data.extend(format!("\"touser\":\"{}\",", QYWEIXINCONFIG.touser).as_bytes());
