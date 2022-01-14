@@ -1,7 +1,9 @@
 mod lib {
-  pub mod config;
+  mod config;
+  mod request;
+  pub mod qyweixin_notify;
   pub mod service;
-  pub mod request;
 }
 
 pub use lib::service;
+pub use lib::qyweixin_notify;
