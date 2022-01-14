@@ -152,10 +152,10 @@ mod test {
 
   #[tokio::test]
   async fn it_should_work() {
-    // get_status().await;
-    // check_in().await;
-    // lottery().await;
-    // get_cur_point().await;
-    // get_counts().await;
+    get_status().await;
+    check_in().await;
+    lottery().await;
+    get_cur_point().await;
+    get_counts().await;
   }
 }

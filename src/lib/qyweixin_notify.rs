@@ -2,7 +2,6 @@ use super::config::{QyAccessTokenMap, QYWEIXINCONFIG, QY_ACCESS_TOKEN_MAP};
 use hyper::{Body, Client, Request};
 use hyper_tls::HttpsConnector;
 use serde::Deserialize;
-use serde_json::json;
 
 pub async fn get_access_token() -> Result<(), String> {
     let https = HttpsConnector::new();
@@ -40,20 +39,23 @@ pub async fn send_notify(notify: &str) {
   let client = Client::builder().build::<_, hyper::Body>(https);
   let uri = format!("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={}", access_token);
 
-  let req_body = json!({
-    "msgtype": "text",
-    "touser": QYWEIXINCONFIG.touser,
-    "agentid": QYWEIXINCONFIG.agentid,
-    "text": {
-      "content": notify,
-    }
-  }).to_string();
+  let mut data: Vec<u8> = Vec::new();
+
+  data.extend("{".as_bytes());
+  data.extend("\"msgtype\":\"text\",".as_bytes());
+  data.extend(format!("\"touser\":\"{}\",", QYWEIXINCONFIG.touser).as_bytes());
+  data.extend(format!("\"agentid\":\"{}\",", QYWEIXINCONFIG.agentid).as_bytes());
+  data.extend("\"text\":{".as_bytes());
+  data.extend(format!("\"content\":\"{}\"", notify).as_bytes());
+  data.extend("}".as_bytes());
+  data.extend("}".as_bytes());
 
   match client
       .request(Request::builder()
       .method("POST")
+      .header("Content-Type", "application/json; charset=UTF-8")
       .uri(uri)
-      .body(Body::from(req_body))
+      .body(Body::from(data))
       .unwrap())
       .await
   {
@@ -83,10 +85,10 @@ pub async fn send_notify(notify: &str) {
 mod test {
   use super::*;
 
-  #[tokio::test]
-  async fn get_access_token_is_work() {
-    get_access_token().await;
-  }
+  // #[tokio::test]
+  // async fn get_access_token_is_work() {
+  //   get_access_token().await;
+  // }
 
   #[tokio::test]
   async fn send_notify_is_work() {
