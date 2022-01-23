@@ -5,6 +5,7 @@ use juejing_actions::service::{
     check_in,
 };
 use juejing_actions::qyweixin_notify::{get_access_token, send_notify};
+use tokio::try_join;
 
 async fn get_info() -> String {
     let handle1 = tokio::spawn(async move {
@@ -22,7 +23,7 @@ async fn get_info() -> String {
                e
            }
        }
-    }).await.unwrap();
+    });
     let handle2 = tokio::spawn(async move {
         match get_cur_point().await {
             Ok(res) => {
@@ -35,9 +36,12 @@ async fn get_info() -> String {
                 e
             }
         }
-     }).await.unwrap();
+     });
+    match try_join!(handle1, handle2) {
+        Ok((msg1, msg2)) => format!("{}\r\n{}", msg1, msg2),
+        Err(e) => format!("error is: {:?}", e),
+    }
 
-     format!("{}\r\n{}", handle1, handle2)
 }
 
 #[tokio::main]
