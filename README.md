@@ -32,7 +32,7 @@ $ RUST_TEST_NOCAPTURE=1 cargo test
 
 ![process.png](/images/xxxxx.png)
 
-### TODO:
+### Docker 支持
 
-- 增加 docker 自动运行
-- 通知
+- 运行 `docker build -t juejing:v1 ./` 构建镜像
+- 修改 `docker-compose.yml` 环境变量，运行 `docker-compose up -d`
