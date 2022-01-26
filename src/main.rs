@@ -16,7 +16,7 @@ async fn get_info() -> String {
                let str2 = format!("累计签到天数: {}", data.get("sum_count").unwrap());
                println!("{}", &str1);
                println!("{}", &str2);
-               format!("{}\r\n{}", str1, str2)
+               format!("{}\\r\\n{}", str1, str2)
            },
            Err(e) => {
                println!("{}", e);
@@ -38,7 +38,7 @@ async fn get_info() -> String {
         }
      });
     match try_join!(handle1, handle2) {
-        Ok((msg1, msg2)) => format!("{}\r\n{}", msg1, msg2),
+        Ok((msg1, msg2)) => format!("{}\\r\\n{}", msg1, msg2),
         Err(e) => format!("error is: {:?}", e),
     }
 
@@ -56,19 +56,19 @@ async fn main() {
                         Ok(check_in_res) => {
                             let str = format!("签到：{}", check_in_res.err_msg);
                             println!("{}", &str);
-                            out_message = format!("{}\r\n{}", out_message, str);
+                            out_message = format!("{}\\r\\n{}", out_message, str);
                         },
                         Err(e) => {
                             println!("{}", &e);
-                            out_message = format!("{}\r\n{}", out_message, e);
+                            out_message = format!("{}\\r\\n{}", out_message, e);
                         }
                     }
                 } else {
                     println!("今日已签到，请勿重复签到");
-                    out_message = format!("{}\r\n{}", out_message, "今日已签到，请勿重复签到");
+                    out_message = format!("{}\\r\\n{}", out_message, "今日已签到，请勿重复签到");
                 }
                 let info_str = get_info().await;
-                out_message = format!("{}\r\n{}", out_message, info_str);
+                out_message = format!("{}\\r\\n{}", out_message, info_str);
                 send_notify(&out_message).await;
             },
             Err(e) => {

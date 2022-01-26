@@ -1,0 +1,21 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  juejing_actions:
+    image: juejing:v1
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.3'
+    #       memory: 500M
+    container_name: auto_juejing_sings
+    # restart: always
+    # 为了防止 启动成功后 容器退出
+    stdin_open: true
+    tty: true
+    environment:
+      # 账号
+      - JUEJIN_COOKIE=_ga=xxxx
+      # 企业微信通知
+      - QY_WEIXIN_CORPID=xxxx
+      - QY_WEIXIN_CORPSECRET=xxxx
+      - QY_WEIXIN_AGEBTID=xxxx
