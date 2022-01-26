@@ -25,5 +25,13 @@ RUN cargo install --target x86_64-unknown-linux-musl --path .
 # Copy the statically-linked binary into a scratch container.
 FROM alpine
 COPY --from=build /usr/local/cargo/bin/juejing_actions .
-USER 1000
-# CMD ["./juejing_actions"]
+# 修改镜像时间
+RUN apk add tzdata \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && apk del tzdata
+COPY ./crontabs /etc/cron.d/
+RUN cat /etc/cron.d/crontabs>>/var/spool/cron/crontabs/root
+# USER 1000
+# 这里定时执行 改为 前台执行，否则容器会在执行完毕后退出
+CMD [ "crond", "-f" ]

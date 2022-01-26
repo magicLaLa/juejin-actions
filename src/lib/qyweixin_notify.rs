@@ -94,7 +94,7 @@ mod test {
   #[tokio::test]
   async fn send_notify_is_work() {
     if get_access_token().await.is_ok() {
-      send_notify("测试消息").await;
+      send_notify("签到：success \\r\\n 连续签到天数: 2 \\r\\n 累计签到天数: 8 \\r\\n 当前矿石数: 494").await;
     }
   }
 }

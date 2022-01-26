@@ -34,5 +34,17 @@ $ RUST_TEST_NOCAPTURE=1 cargo test
 
 ### Docker 支持
 
+- 默认执行为 每天的 16:43
+
+```
+43 16 * * * /juejing_actions >> /var/log/cron 2>&1 &
+```
+可以自定义时间后构建自己的镜像
+
 - 运行 `docker build -t juejing:v1 ./` 构建镜像
 - 修改 `docker-compose.yml` 环境变量，运行 `docker-compose up -d`
+
+#### 排查
+
+- 查看 进程：`ps -ef | grep crond`
+- 查看容器属性：`docker inspect containerID`
